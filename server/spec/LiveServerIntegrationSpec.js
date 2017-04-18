@@ -47,6 +47,20 @@ describe('server', function() {
     });
   });
 
+  it('***should accept OPTIONS requests to /classes/messages', function(done) {
+    var requestParams = {method: 'OPTIONS',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        username: 'Jono',
+        message: 'Do my bidding!'}
+    };
+
+    request(requestParams, function(error, response, body) {
+      expect(response.statusCode).to.equal(201);
+      done();
+    });
+  });
+
   it('should respond with messages that were previously posted', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/messages',
@@ -72,6 +86,7 @@ describe('server', function() {
       done();
     });
   });
+
 
 
 });

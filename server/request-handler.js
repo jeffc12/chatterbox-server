@@ -42,8 +42,7 @@ var requestHandler = function(request, response) {
     var statusCode = 404;
   } else if (request.method === 'GET') {
     var statusCode = 200;
-
-  } else if (request.method === 'POST') {
+  } else if (request.method === 'POST' || request.method === 'OPTIONS') {
     var statusCode = 201;
     request.on('data', (chunk) => {
       rawData += chunk;
@@ -87,4 +86,4 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 module.exports.requestHandler = requestHandler;
-
+module.exports.data = data;
