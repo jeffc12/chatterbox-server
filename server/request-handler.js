@@ -11,6 +11,7 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
+var data = {results: []};
 
 var defaultCorsHeaders = {
   'access-control-allow-origin': '*',
@@ -34,19 +35,26 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
+
+  var rawData = '';
+
   if (request.url !== '/classes/messages') {
     var statusCode = 404;
   } else if (request.method === 'GET') {
     var statusCode = 200;
+
   } else if (request.method === 'POST') {
     var statusCode = 201;
+    request.on('data', (chunk) => {
+      rawData += chunk;
+      let parsedData = JSON.parse(rawData);
+      data.results.push(parsedData);
+    });
   }
-  // The outgoing status.
-  // var statusCode = 200;
+
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
-  var data = {results: []};
 
   // Tell the client we are sending them plain text.
   //
